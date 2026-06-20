@@ -117,5 +117,11 @@ $$L = e^x$$
 Substituting $L$ back with our original limit expression, the proof is complete:
 $$\lim_{n \to \infty} \left(1 + \frac{x}{n}\right)^n = e^x$$
 
-<img width="606" height="776" alt="Screenshot 2026-06-20 at 9 49 22 PM" src="https://github.com/user-attachments/assets/e784a573-1318-44c8-9ad9-8e5fff636df5" />
+### Exponential Base Point
+![Exponential Base Point](exponential_base_point.png)
 
+### Intermediate Form
+![Intermediate Form](intermediate_form1.png)
+
+### Polynomial Approximation
+![Polynomial Approximation](polynomial_approximation.png)
