@@ -1,6 +1,62 @@
 # TaylorMaclaurin-ExpandedPINN
 <img width="1694" height="975" alt="Screenshot 2026-05-13 at 11 08 22 AM" src="https://github.com/user-attachments/assets/76b4fdea-e6a1-4f50-9462-5b649b9843aa" />
 
+| CHEMENG 236.        | This paper                                        |
+| ------------------- | ------------------------------------------------- |
+| \(u_\theta(x,t)\)   | predicted concentration profile                   |
+| data                | experimental/numerical concentration measurements |
+| governing equation  | chemical-reaction ODEs                            |
+| physics residual    | kinetic ODE residual                              |
+| collocation points  | unmeasured time points                            |
+| \(\theta\)          | neural-network parameters                         |
+| optimization        | ADAM/backpropagation                              |
+| physics constraint  | reaction kinetics / mass balances                 |
+
+| Paper notation               | Our notation          | Meaning                    |
+| ---------------------------- | --------------------- | -------------------------- |
+| \(u(x,t)\)                   | \([A]_\theta(t)\)     | predicted physical state   |
+| \(\lambda\)                  | \(\lambda\)           | kinetic/process parameters |
+| \(\mathcal N[u,\lambda]\)    | \(-f([A],t;\lambda)\) | governing physics          |
+| \(\frac{d[A]}{dt}=f([A],t)\) | chemical ODE          | reaction kinetics          |
+| \(f_\theta(t)\) in Eq. (3)   | \(r_\theta(t)\)       | physics residual           |
+| \(f_\theta(t)=0\)            | \(r_\theta(t)=0\)     | physics satisfied          |
+| —                            | \(h(u_\theta)=0\)     | equality constraint        |
+
+
+# How it deal with error propagation , How broad is the work , level of accuracy and does it translate to harder problems? 
+- Error Propagations 1. Data measurement noise 2. Temporal error accumulation. 3. model-form / Taylor truncation error.
+- Broadness: dynamic reaction kinetics+process-condition variation​
+- Accuracy: 
+SubR:^2 > 0.79, RMSE = 0.05 for iron-catalyzed cycloaddition
+Prod:R^2 > 0.75, RMSE = 0.05 for iron-catalyzed cycloaddition-
+-  Does it translate to harder problems?
+simple kinetics→catalytic network→intermediate species→multivariate conditions→oscillatory dynamics. 
+However, the paper gets some of its robustness by simplifying the hard problem.
+
+| Question                               | Assessment                                |
+| -------------------------------------- | ----------------------------------------- |
+| Noise robustness                       | **Moderate–good**                         |
+| Formal uncertainty propagation         | **Weak / not addressed**                  |
+| Accuracy inside sampled design space   | **Very good**                             |
+| New combinations within sampled ranges | **Good, but variable**                    |
+| Extrapolation outside sampled range    | **Poorly supported**                      |
+| Limited-data performance               | **Promising**                             |
+| Multivariate process conditions        | **Yes**                                   |
+| Oscillatory dynamics                   | **Demonstrated**                          |
+| Strongly stiff CRNs                    | **Partly avoided through simplification** |
+| Mechanism discovery                    | **No**                                    |
+| Reaction-order identification          | **No**                                    |
+| General industrial process surrogate   | **Promising**                             |
+| Arbitrary complex reaction solver      | **Not demonstrated**                      |
+
+Its strongest use case is:
+
+$$ \text{limited experiments} + \text{known reasonable process range} + \text{concentration-time data} + \text{process-condition optimization}. $$
+
+Its weakest use case is:
+
+$$ \text{high-dimensional parameter space} + \text{strong stiffness} + \text{poorly sampled fast dynamics} + \text{large extrapolation} + \text{need for mechanistic or uncertainty inference}. $$
+
 
 ## Augmented PINN with PyTorch
 
